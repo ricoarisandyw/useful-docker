@@ -1,0 +1,57 @@
+# first run create key first. ./1-create-key.sh key is needed for replica set
+# second run docker-compose
+# third ./3-create-rs.sh
+
+services:
+  mongo1:
+    container_name: mongo1
+    hostname: mongo1
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=alice
+      - MONGO_INITDB_ROOT_PASSWORD=super-secret-password
+    volumes:
+      - ./mongo-keyfile:/mongo-keyfile
+    networks:
+      - mongors-network
+    links:
+      - mongo2
+      - mongo3
+    expose:
+      - 27017
+    ports:
+      - 27017:27017 
+    restart: always
+    command: mongod --replSet my-mongo-set --keyFile /mongo-keyfile
+  mongo2:
+    container_name: mongo2
+    hostname: mongo2
+    image: mongo
+    volumes:
+      - ./mongo-keyfile:/mongo-keyfile
+    networks:
+      - mongors-network
+    expose:
+      - 27017
+    ports:
+      - 27018:27017
+    restart: always
+    command: mongod --replSet my-mongo-set --keyFile /mongo-keyfile
+  mongo3:
+    container_name: mongo3
+    hostname: mongo3
+    image: mongo
+    volumes:
+      - ./mongo-keyfile:/mongo-keyfile
+    networks:
+      - mongors-network
+    expose:
+      - 27017
+    ports:
+      - 27019:27017
+    restart: always
+    command: mongod --replSet my-mongo-set --keyFile /mongo-keyfile
+
+networks:
+  mongors-network:
+    driver: bridge
