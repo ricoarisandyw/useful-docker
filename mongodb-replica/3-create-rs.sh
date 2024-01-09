@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker exec -it mongo1 mongosh -u alice -p super-secret-password --eval '
+docker exec -it mongo1 mongo -u alice -p super-secret-password --eval '
     config = {
       "_id" : "my-mongo-set",
       "members" : [

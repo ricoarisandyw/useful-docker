@@ -6,7 +6,7 @@ services:
   mongo1:
     container_name: mongo1
     hostname: mongo1
-    image: mongo
+    image: mongo:4.4
     environment:
       - MONGO_INITDB_ROOT_USERNAME=alice
       - MONGO_INITDB_ROOT_PASSWORD=super-secret-password
@@ -26,7 +26,7 @@ services:
   mongo2:
     container_name: mongo2
     hostname: mongo2
-    image: mongo
+    image: mongo:4.4
     volumes:
       - ./mongo-keyfile:/mongo-keyfile
     networks:
@@ -40,7 +40,7 @@ services:
   mongo3:
     container_name: mongo3
     hostname: mongo3
-    image: mongo
+    image: mongo:4.4
     volumes:
       - ./mongo-keyfile:/mongo-keyfile
     networks:
